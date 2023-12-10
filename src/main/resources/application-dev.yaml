@@ -18,5 +18,5 @@ spring:
 bookstore:
   app:
     jwt:
-      secret: changethis
+      secret: thisissecretkeyforourbookstoreapppleasechangeitifneeded
       expiration-in-ms: 86400000 # 24 hours
