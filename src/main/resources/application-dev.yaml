@@ -11,3 +11,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show_sql: true
+
+bookstore:
+  app:
+    jwt:
+      secret: changethis
+      expiration-in-ms: 86400000 # 24 hours
