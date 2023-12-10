@@ -27,8 +27,8 @@ public class BookController {
 	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest book) {
 
 		Book registered = bookService.registerOrUpdate(book);
-		return ResponseEntity.created(URI.create("/api/books/" + registered.getId())).
-				body(new Message("Book registered successfully"));
+		return ResponseEntity.created(URI.create("/api/books/" + registered.getId()))
+			.body(new Message("Book registered successfully"));
 	}
 
 	@PutMapping("/")
@@ -38,11 +38,11 @@ public class BookController {
 		boolean isExist = bookService.findByIsbn(book.isbn()).isPresent();
 
 		if (!isExist) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
-					.body(new Message("Book not found!"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message("Book not found!"));
 		}
 
 		bookService.registerOrUpdate(book);
 		return ResponseEntity.ok(new Message("Book updated successfully"));
 	}
+
 }

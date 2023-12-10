@@ -11,9 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "books", uniqueConstraints = {
-		@UniqueConstraint(columnNames = "isbn")
-})
+@Table(name = "books", uniqueConstraints = { @UniqueConstraint(columnNames = "isbn") })
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
