@@ -1,5 +1,6 @@
 package io.vanslog.bookstore.user;
 
+import io.vanslog.bookstore.loan.Loan;
 import io.vanslog.bookstore.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -40,6 +41,9 @@ public class User {
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@OneToMany(mappedBy = "user")
+	private Set<Loan> loans = new HashSet<>();
 
 	public User(String username, String email, String password) {
 

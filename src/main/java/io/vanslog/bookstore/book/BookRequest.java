@@ -5,11 +5,7 @@ import org.hibernate.validator.constraints.ISBN;
 
 public record BookRequest(
 
-		@ISBN
-		@NotBlank
-		String isbn,
+		@ISBN @NotBlank String isbn,
 
-		@NotBlank
-		String title
-) {
+		@NotBlank String title) {
 }
