@@ -1,4 +1,4 @@
-package io.vanslog.bookstore.user.detail;
+package io.vanslog.bookstore.security.service;
 
 import io.vanslog.bookstore.user.User;
 import io.vanslog.bookstore.user.UserRepository;
