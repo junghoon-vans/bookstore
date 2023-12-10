@@ -21,25 +21,24 @@ public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+
 	private String username;
+
 	private String email;
+
 	@JsonIgnore
 	private String password;
+
 	private Collection<? extends GrantedAuthority> authorities;
 
 	public static UserDetailsImpl build(User user) {
 
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
+		List<GrantedAuthority> authorities = user.getRoles()
+			.stream()
+			.map(role -> new SimpleGrantedAuthority(role.getName().name()))
+			.collect(Collectors.toList());
 
-		return new UserDetailsImpl(
-				user.getId(),
-				user.getUsername(),
-				user.getEmail(),
-				user.getPassword(),
-				authorities
-		);
+		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
 	}
 
 	@Override
@@ -62,16 +61,10 @@ public class UserDetailsImpl implements UserDetails {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
-		return "UserDetailsImpl{" +
-				"id=" + id +
-				", username='" + username + '\'' +
-				", email='" + email + '\'' +
-				", password='" + password + '\'' +
-				", authorities=" + authorities +
-				'}';
+		return "UserDetailsImpl{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\''
+				+ ", password='" + password + '\'' + ", authorities=" + authorities + '}';
 	}
 
 	@Override
@@ -92,4 +85,5 @@ public class UserDetailsImpl implements UserDetails {
 	public int hashCode() {
 		return ObjectUtils.nullSafeHashCode(id);
 	}
+
 }
