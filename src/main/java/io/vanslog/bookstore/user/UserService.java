@@ -10,6 +10,7 @@ import io.vanslog.bookstore.security.jwt.JwtUtils;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -73,7 +74,7 @@ public class UserService {
 		return new JwtToken(jwt);
 	}
 
-	private Set<Role> roleSetFrom(Set<String> strRoles) {
+	private Set<Role> roleSetFrom(@Nullable Set<String> strRoles) {
 
 		Set<Role> roles = new HashSet<>();
 

@@ -35,12 +35,7 @@ public class AuthController {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("Email is already in use!"));
 		}
 
-		User savedUser = userService.createUser(request);
-
-		if (savedUser == null) {
-			return ResponseEntity.internalServerError().body(new Message("Unknown error occurred. Please try again!"));
-		}
-
+		userService.createUser(request);
 		return ResponseEntity.ok(new Message("User registered successfully!"));
 	}
 

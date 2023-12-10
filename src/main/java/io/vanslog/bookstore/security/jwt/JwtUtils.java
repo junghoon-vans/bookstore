@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -54,6 +55,7 @@ public class JwtUtils {
 	 * @param jwtToken JWT token
 	 * @return JWS
 	 */
+	@Nullable
 	public Jws<Claims> getJwsFrom(String jwtToken) {
 		try {
 			return Jwts.parser().verifyWith(createSecretKey(jwtSecret)).build().parseSignedClaims(jwtToken);
