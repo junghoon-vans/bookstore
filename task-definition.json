@@ -1,0 +1,65 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "339286557484.dkr.ecr.ap-northeast-2.amazonaws.com/reverse-proxy",
+      "cpu": 204,
+      "memory": 204,
+      "links": [
+        "application"
+      ],
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 0,
+          "protocol": "tcp",
+          "name": "nginx-80-tcp"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "bookstore-nginx",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
+      "name": "application",
+      "image": "339286557484.dkr.ecr.ap-northeast-2.amazonaws.com/bookstore",
+      "cpu": 768,
+      "memory": 768,
+      "portMappings": [],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [
+        {
+          "value": "arn:aws:s3:::bookstore-config/.env",
+          "type": "s3"
+        }
+      ],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "bookstore-application",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "family": "application-stack",
+  "executionRoleArn": "arn:aws:iam::339286557484:role/ecsTaskExecutionRole",
+  "networkMode": "bridge",
+  "volumes": [],
+  "placementConstraints": []
+}
