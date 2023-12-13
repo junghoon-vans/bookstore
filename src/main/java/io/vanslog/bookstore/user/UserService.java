@@ -84,9 +84,9 @@ public class UserService {
 		}
 
 		strRoles.forEach(role -> {
-			switch (role) {
-				case "admin" -> addRole(roles, RoleName.ROLE_ADMIN);
-				case "user" -> addRole(roles, RoleName.ROLE_USER);
+			switch (role.toUpperCase()) {
+				case "ADMIN" -> addRole(roles, RoleName.ROLE_ADMIN);
+				case "USER" -> addRole(roles, RoleName.ROLE_USER);
 				default -> throw new DataAccessResourceFailureException("Role is not found.");
 			}
 		});
