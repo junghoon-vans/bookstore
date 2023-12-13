@@ -23,7 +23,7 @@ public class BookController {
 		this.bookService = bookService;
 	}
 
-	@PostMapping
+	@PostMapping("/")
 	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest book) {
 
 		boolean isExist = bookService.findByIsbn(book.isbn()).isPresent();
@@ -37,7 +37,7 @@ public class BookController {
 			.body(new Message("Book registered successfully"));
 	}
 
-	@PutMapping
+	@PutMapping("/")
 	public ResponseEntity<Message> update(@RequestBody @Valid BookRequest book) {
 
 		boolean isExist = bookService.findByIsbn(book.isbn()).isPresent();
