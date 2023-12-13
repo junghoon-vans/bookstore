@@ -2,6 +2,7 @@ package io.vanslog.bookstore.loan;
 
 import io.vanslog.bookstore.global.response.Message;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,14 +32,14 @@ public class LoanController {
 	}
 
 	@PostMapping("/{bookId}/borrow")
-	public ResponseEntity<Message> borrowBook(@PathVariable Long bookId, @RequestBody Borrower borrower) {
+	public ResponseEntity<Message> borrowBook(@PathVariable Long bookId, @RequestBody @Valid Borrower borrower) {
 
 		loanService.borrowBook(borrower.username(), bookId);
 		return ResponseEntity.ok(new Message("Book borrowed"));
 	}
 
 	@PostMapping("/{bookId}/return")
-	public ResponseEntity<Message> returnBook(@PathVariable Long bookId, @RequestBody Borrower borrower) {
+	public ResponseEntity<Message> returnBook(@PathVariable Long bookId, @RequestBody @Valid Borrower borrower) {
 
 		loanService.returnBook(borrower.username(), bookId);
 		return ResponseEntity.ok(new Message("Book returned"));
