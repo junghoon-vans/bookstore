@@ -29,7 +29,15 @@ public class Book {
 
 	private String title;
 
+	private int stock;
+
 	@OneToMany(mappedBy = "book")
 	private Set<Loan> loans = new HashSet<>();
+
+	public Book update(BookRequest bookRequest) {
+		this.title = bookRequest.title();
+		this.stock = bookRequest.stock();
+		return this;
+	}
 
 }

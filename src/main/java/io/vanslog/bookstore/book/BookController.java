@@ -4,6 +4,7 @@ import io.vanslog.bookstore.global.response.Message;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,29 +25,30 @@ public class BookController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest book) {
+	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest bookRequest) {
 
-		boolean isExist = bookService.findByIsbn(book.isbn()).isPresent();
+		boolean isExist = bookService.findByIsbn(bookRequest.isbn()).isPresent();
 
 		if (isExist) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("Book already exists!"));
 		}
 
-		Book registered = bookService.registerOrUpdate(book);
+		Book registered = bookService.register(bookRequest);
 		return ResponseEntity.created(URI.create("/api/books/" + registered.getId()))
 			.body(new Message("Book registered successfully"));
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<Message> update(@RequestBody @Valid BookRequest book) {
+	public ResponseEntity<Message> update(@RequestBody @Valid BookRequest bookRequest) {
 
-		boolean isExist = bookService.findByIsbn(book.isbn()).isPresent();
+		Optional<Book> originalBook = bookService.findByIsbn(bookRequest.isbn());
 
-		if (!isExist) {
+		if (originalBook.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message("Book not found!"));
 		}
 
-		bookService.registerOrUpdate(book);
+		bookService.update(originalBook.get(), bookRequest);
+
 		return ResponseEntity.ok(new Message("Book updated successfully"));
 	}
 

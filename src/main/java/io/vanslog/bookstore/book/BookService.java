@@ -15,10 +15,16 @@ public class BookService {
 	}
 
 	@Transactional
-	public Book registerOrUpdate(BookRequest bookRequest) {
+	public Book register(BookRequest bookRequest) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Book book = objectMapper.convertValue(bookRequest, Book.class);
 		return bookRepository.save(book);
+	}
+
+	@Transactional
+	public void update(Book origin, BookRequest bookRequest) {
+		Book updatedBook = origin.update(bookRequest);
+		bookRepository.save(updatedBook);
 	}
 
 	@Transactional(readOnly = true)
