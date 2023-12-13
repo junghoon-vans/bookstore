@@ -10,9 +10,11 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.util.Assert;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,9 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	public JwtAuthenticationFilter() {
-	}
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -42,12 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			if (jws != null) {
 				String username = jws.getPayload().getSubject();
 
+				var repository = new RequestAttributeSecurityContextRepository();
+
 				var userDetails = userDetailsService.loadUserByUsername(username);
 				var authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
 						userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-				SecurityContextHolder.getContext().setAuthentication(authentication);
+				SecurityContext context = SecurityContextHolder.createEmptyContext();
+				context.setAuthentication(authentication);
+
+				repository.saveContext(context, request, response);
 			}
 		}
 
