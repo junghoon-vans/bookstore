@@ -1,10 +1,7 @@
 package io.vanslog.bookstore.auth;
 
-import io.vanslog.bookstore.auth.request.LoginRequest;
-import io.vanslog.bookstore.auth.request.SignupRequest;
 import io.vanslog.bookstore.global.response.JwtToken;
 import io.vanslog.bookstore.global.response.Message;
-import io.vanslog.bookstore.user.User;
 import io.vanslog.bookstore.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

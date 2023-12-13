@@ -25,29 +25,29 @@ public class BookController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest bookRequest) {
+	public ResponseEntity<Message> register(@RequestBody @Valid BookRequest newBook) {
 
-		boolean isExist = bookService.findByIsbn(bookRequest.isbn()).isPresent();
+		boolean isExist = bookService.findByIsbn(newBook.isbn()).isPresent();
 
 		if (isExist) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("Book already exists!"));
 		}
 
-		Book registered = bookService.register(bookRequest);
+		Book registered = bookService.register(newBook);
 		return ResponseEntity.created(URI.create("/api/books/" + registered.getId()))
 			.body(new Message("Book registered successfully"));
 	}
 
 	@PutMapping("/")
-	public ResponseEntity<Message> update(@RequestBody @Valid BookRequest bookRequest) {
+	public ResponseEntity<Message> update(@RequestBody @Valid BookRequest toUpdate) {
 
-		Optional<Book> originalBook = bookService.findByIsbn(bookRequest.isbn());
+		Optional<Book> originalBook = bookService.findByIsbn(toUpdate.isbn());
 
 		if (originalBook.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message("Book not found!"));
 		}
 
-		bookService.update(originalBook.get(), bookRequest);
+		bookService.update(originalBook.get(), toUpdate);
 
 		return ResponseEntity.ok(new Message("Book updated successfully"));
 	}

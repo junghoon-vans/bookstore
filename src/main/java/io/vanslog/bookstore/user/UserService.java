@@ -1,7 +1,7 @@
 package io.vanslog.bookstore.user;
 
-import io.vanslog.bookstore.auth.request.LoginRequest;
-import io.vanslog.bookstore.auth.request.SignupRequest;
+import io.vanslog.bookstore.auth.LoginRequest;
+import io.vanslog.bookstore.auth.SignupRequest;
 import io.vanslog.bookstore.global.response.JwtToken;
 import io.vanslog.bookstore.role.Role;
 import io.vanslog.bookstore.role.RoleName;
