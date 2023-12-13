@@ -52,4 +52,13 @@ public class LoanService {
 		return loan;
 	}
 
+	public boolean isAvailable(Long bookId) {
+		Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found"));
+		return book.getAvailable() > 0;
+	}
+
+	public boolean hasBorrowed(String username, Long bookId) {
+		return loanRepository.findByUserUsernameAndBookId(username, bookId).isPresent();
+	}
+
 }

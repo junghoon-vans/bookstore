@@ -34,6 +34,10 @@ public class Book {
 	@OneToMany(mappedBy = "book")
 	private Set<Loan> loans = new HashSet<>();
 
+	public int getAvailable() {
+		return stock - loans.stream().filter(Loan::isNotReturned).toList().size();
+	}
+
 	public Book update(BookRequest bookRequest) {
 		this.title = bookRequest.title();
 		this.stock = bookRequest.stock();

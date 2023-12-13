@@ -44,4 +44,8 @@ public class Loan {
 		this.book = book;
 	}
 
+	public boolean isNotReturned() {
+		return returnedAt == null;
+	}
+
 }

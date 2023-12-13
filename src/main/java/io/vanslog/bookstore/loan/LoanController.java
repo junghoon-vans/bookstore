@@ -34,12 +34,20 @@ public class LoanController {
 	@PostMapping("/{bookId}/borrow")
 	public ResponseEntity<Message> borrowBook(@PathVariable Long bookId, @RequestBody @Valid Borrower borrower) {
 
+		if (!loanService.isAvailable(bookId)) {
+			return ResponseEntity.badRequest().body(new Message("Book is not available"));
+		}
+
 		loanService.borrowBook(borrower.username(), bookId);
 		return ResponseEntity.ok(new Message("Book borrowed"));
 	}
 
 	@PostMapping("/{bookId}/return")
 	public ResponseEntity<Message> returnBook(@PathVariable Long bookId, @RequestBody @Valid Borrower borrower) {
+
+		if (!loanService.hasBorrowed(borrower.username(), bookId)) {
+			return ResponseEntity.badRequest().body(new Message("Book is not borrowed"));
+		}
 
 		loanService.returnBook(borrower.username(), bookId);
 		return ResponseEntity.ok(new Message("Book returned"));
